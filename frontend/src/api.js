@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000/api"
+const BASE_URL = "https://ai-mock-interview-bot.onrender.com/api"
 
 export async function getQuestions(role) {
   const response = await fetch(`${BASE_URL}/generate-questions`, {
