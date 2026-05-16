@@ -18,24 +18,36 @@ def ask_groq(prompt: str) -> str:
         return f"AI Error: {str(e)}"
 
 def generate_questions(role: str) -> list:
-    prompt = f"""
-    Generate exactly 5 interview questions for a {role} position.
-    Return ONLY a numbered list like this:
-    1. Question one
-    2. Question two
-    3. Question three
-    4. Question four
-    5. Question five
-    No extra text, just the 5 questions.
-    """
+    prompt = f"""Generate exactly 5 interview questions for a {role} position.
+Return ONLY a numbered list. No extra text.
+1. First question here
+2. Second question here
+3. Third question here
+4. Fourth question here
+5. Fifth question here"""
+    
     response = ask_groq(prompt)
     lines = response.strip().split("\n")
     questions = []
     for line in lines:
         line = line.strip()
-        if line and line[0].isdigit():
-            question = line.split(".", 1)[-1].strip()
-            questions.append(question)
+        if not line:
+            continue
+        if line[0].isdigit():
+            parts = line.split(".", 1)
+            if len(parts) > 1:
+                question = parts[1].strip()
+                if question:
+                    questions.append(question)
+    
+    if len(questions) < 3:
+        questions = [
+            f"Tell me about your experience relevant to {role}?",
+            f"What are your key strengths for this {role} position?",
+            f"Where do you see yourself in 5 years as a {role}?",
+            f"Describe a challenge you faced and how you solved it?",
+            f"Why do you want this {role} role specifically?"
+        ]
     return questions[:5]
 
 def evaluate_answer(role: str, question: str, answer: str) -> dict:
