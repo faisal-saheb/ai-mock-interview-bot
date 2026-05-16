@@ -1,6 +1,7 @@
 from groq import Groq
 
-client = Groq(api_key="your_groq_api_key_here")
+import os
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 MODEL_NAME = "llama3-8b-8192"
 
 def ask_groq(prompt: str) -> str:
