@@ -1,21 +1,18 @@
-import requests
-import json
+from groq import Groq
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "llama3"
+client = Groq(api_key="your_groq_api_key_here")
+MODEL_NAME = "llama3-8b-8192"
 
-def ask_ollama(prompt: str) -> str:
+def ask_groq(prompt: str) -> str:
     try:
-        response = requests.post(
-            OLLAMA_URL,
-            json={
-                "model": MODEL_NAME,
-                "prompt": prompt,
-                "stream": False
-            }
+        response = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=1000
         )
-        result = response.json()
-        return result["response"]
+        return response.choices[0].message.content
     except Exception as e:
         return f"AI Error: {str(e)}"
 
@@ -30,7 +27,7 @@ def generate_questions(role: str) -> list:
     5. Question five
     No extra text, just the 5 questions.
     """
-    response = ask_ollama(prompt)
+    response = ask_groq(prompt)
     lines = response.strip().split("\n")
     questions = []
     for line in lines:
@@ -52,7 +49,7 @@ def evaluate_answer(role: str, question: str, answer: str) -> dict:
     FEEDBACK: [2-3 sentences of specific feedback]
     IDEAL: [one sentence about what a perfect answer includes]
     """
-    response = ask_ollama(prompt)
+    response = ask_groq(prompt)
     
     score = 7
     feedback = "Good answer overall."
