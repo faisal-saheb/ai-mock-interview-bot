@@ -5,13 +5,12 @@ from database import init_db
 
 app = FastAPI()
 
-# Initialize database on startup
 init_db()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
