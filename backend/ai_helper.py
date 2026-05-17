@@ -128,47 +128,70 @@ Now generate 5 such deep questions for {role}. Return ONLY numbered list.
 
 def evaluate_answer(role: str, question: str, answer: str) -> dict:
     word_count = len(answer.split())
+    
+    # Step 1: Instant rejection for garbage answers
+    if word_count < 8:
+        return {
+            "score": 1,
+            "feedback": "This answer is far too short to evaluate. A real interview answer requires at least 3-4 detailed sentences with specific examples from your experience.",
+            "ideal": "A strong answer uses the STAR method (Situation, Task, Action, Result) with specific metrics and role-relevant examples."
+        }
 
-    prompt = f"""You are a strict senior interviewer evaluating a {role} candidate's answer.
+    # Step 2: Two-phase intelligent evaluation
+    prompt = f"""You are the strictest technical interviewer at a top company evaluating a {role} candidate.
 
-QUESTION: {question}
+INTERVIEW QUESTION:
+{question}
 
-CANDIDATE'S ANSWER: {answer}
+CANDIDATE'S ANSWER:
+{answer}
 
-WORD COUNT: {word_count} words
+ANSWER WORD COUNT: {word_count} words
 
-STRICT EVALUATION RULES:
-1. If answer is less than 20 words → SCORE 1-2 maximum. No exceptions.
-2. If answer is vague with no specific examples → SCORE 2-4 maximum
-3. If answer has some structure but lacks depth → SCORE 4-6
-4. If answer has specific examples, clear structure, shows real experience → SCORE 6-8
-5. If answer uses STAR method, has metrics, shows deep expertise → SCORE 8-10
+PHASE 1 — DEFINE PERFECT ANSWER:
+First, think about what a truly expert {role} professional would answer for this question.
+A perfect answer must include:
+- Specific real-world examples with actual numbers/metrics
+- Correct use of industry terminology and frameworks
+- Clear logical structure (problem → approach → outcome)
+- Evidence of hands-on experience in {role} work
 
-IMPORTANT PENALTIES:
-- Generic answer with no role-specific knowledge → -3 points
-- No concrete examples or metrics → -2 points  
-- Irrelevant or off-topic answer → SCORE 1-2
-- Copy-paste sounding answer → -2 points
+PHASE 2 — STRICT COMPARISON:
+Now compare the candidate's actual answer against that perfect benchmark.
 
-IMPORTANT BONUSES:
-- Uses specific numbers/metrics → +1 point
-- References real tools/frameworks → +1 point
-- Shows self-awareness about mistakes → +1 point
+CHECK THESE POINTS:
+❌ Is the answer vague or generic? (costs 3 points)
+❌ Does it lack specific examples or metrics? (costs 2 points)
+❌ Does it miss key {role} concepts? (costs 2 points)
+❌ Is it poorly structured or rambling? (costs 1 point)
+❌ Does it contain incorrect information? (costs 3 points)
+✅ Uses STAR method with specifics? (adds 2 points)
+✅ Shows real expertise with correct terminology? (adds 2 points)
+✅ Has measurable outcomes or metrics? (adds 1 point)
 
-Be HARSH and REALISTIC. Most candidates score 4-6.
-Only truly outstanding answers deserve 8+.
-Never give 7+ for vague or short answers.
+SCORING GUIDE — BE BRUTAL:
+1-2: Answer is irrelevant, one-liner, or completely wrong
+3-4: Answer is generic with zero specific examples or role knowledge
+5-6: Answer is okay but lacks depth, specifics, or structure
+7-8: Answer is good with examples and some role expertise shown
+9-10: Answer is exceptional — specific metrics, STAR structure, deep expertise
 
-Respond in EXACTLY this format with no extra text:
+REALITY CHECK:
+- Most real candidates score 3-6
+- Score 7+ only if answer genuinely impresses a senior {role} interviewer
+- Never give 7+ just because the answer is long — it must be CORRECT and SPECIFIC
+- A long but vague answer scores maximum 5
+
+Now evaluate strictly and respond in EXACTLY this format:
 SCORE: [number 1-10]
-FEEDBACK: [2-3 sentences — be specific about what was missing]
-IDEAL: [1 sentence — what a 9/10 answer would include]"""
+FEEDBACK: [2-3 sentences — mention exactly what was missing or wrong]
+IDEAL: [1 sentence — what specific elements a perfect answer must have]"""
 
     response = ask_groq(prompt)
 
     score = 4
-    feedback = "Your answer lacks specific examples and depth required for this role."
-    ideal = "A strong answer uses the STAR method with specific metrics and role-relevant examples."
+    feedback = "Your answer lacks the specific depth and role expertise expected at this level."
+    ideal = "A strong answer uses STAR method with real metrics, specific tools, and concrete outcomes."
 
     lines = response.strip().split("\n")
     for line in lines:
@@ -185,12 +208,23 @@ IDEAL: [1 sentence — what a 9/10 answer would include]"""
         elif line.startswith("IDEAL:"):
             ideal = line.replace("IDEAL:", "").strip()
 
-    # Hard penalties for clearly bad answers
-    if word_count < 10:
+    # Hard code penalties — these override AI if it's being too generous
+    if word_count < 20:
+        score = min(score, 3)
+        feedback = f"Your answer is too brief ({word_count} words). Recruiters expect detailed answers with examples. " + feedback
+    elif word_count < 50:
+        score = min(score, 5)
+
+    # Check for filler/garbage answers
+    garbage_phrases = [
+        "i don't know", "idk", "nothing", "good", "fine", 
+        "yes", "no", "ok", "okay", "maybe", "i will try",
+        "i would do my best", "i am good at this"
+    ]
+    answer_lower = answer.lower().strip()
+    if any(phrase in answer_lower for phrase in garbage_phrases) and word_count < 30:
         score = min(score, 2)
-        feedback = "Your answer is too short to evaluate properly. A real interview answer needs at least 3-4 sentences with specific examples."
-    elif word_count < 30:
-        score = min(score, 4)
+        feedback = "This type of response would immediately disqualify a candidate in a real interview. Provide detailed, specific answers."
 
     return {
         "score": score,
