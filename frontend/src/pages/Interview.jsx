@@ -58,10 +58,10 @@ function Interview() {
       <div className="min-h-screen flex flex-col items-center justify-center"
         style={{ backgroundColor: "var(--bg-primary)" }}>
         <div className="text-6xl mb-6 animate-pulse">🤖</div>
-        <h2 className="text-xl font-semibold mb-2"
-          style={{ color: "var(--text-primary)" }}>
-          Preparing your interview...
-        </h2>
+       <h2 className="comic-text text-3xl mb-2"
+  style={{ color: "var(--accent-dijon)" }}>
+  PREPARING YOUR INTERVIEW...
+</h2>
         <p className="text-sm" style={{ color: "var(--accent-dijon)" }}>
           Generating {role} questions
         </p>
@@ -117,10 +117,10 @@ function Interview() {
         {/* Question */}
         <div className="mb-6 pl-4 border-l-2"
           style={{ borderColor: "var(--accent-pistachio)" }}>
-          <p className="text-xs uppercase tracking-widest mb-2"
-            style={{ color: "var(--text-secondary)" }}>
-            Question {currentQ + 1}
-          </p>
+         <p className="comic-text text-lg mb-2"
+  style={{ color: "var(--accent-teal)" }}>
+  QUESTION {currentQ + 1}
+</p>
           <p className="text-lg font-medium leading-relaxed"
             style={{ color: "var(--text-primary)" }}>
             {questions[currentQ]}

@@ -38,26 +38,26 @@ function Home() {
         {/* Header */}
         <div className="text-center mb-10">
           <div className="text-5xl mb-5">🤖</div>
-          <h1 className="text-4xl font-bold mb-3"
-            style={{ color: "var(--text-primary)" }}>
-            AI Mock Interview
-          </h1>
-          <div className="w-16 h-0.5 mx-auto mb-4"
-            style={{ background: "var(--accent-dijon)" }} />
-          <p style={{ color: "var(--text-secondary)" }}
-            className="text-sm leading-relaxed">
-            Practice with AI — get honest feedback,<br />
-            real scores and improve faster
-          </p>
+          <h1 className="text-5xl mb-3 comic-text"
+  style={{ color: "var(--accent-dijon)" }}>
+  AI MOCK INTERVIEW
+</h1>
+<div className="w-16 h-0.5 mx-auto mb-4"
+  style={{ background: "var(--accent-teal)" }} />
+<p style={{ color: "var(--text-secondary)" }}
+  className="text-sm leading-relaxed">
+  Practice with AI — get honest feedback,<br />
+  real scores and improve faster
+</p>
         </div>
 
         {/* Card */}
         <div className="card rounded-2xl p-6">
 
-          <p className="text-xs uppercase tracking-widest mb-4"
-            style={{ color: "var(--text-secondary)" }}>
-            Select Your Role
-          </p>
+         <p className="comic-text text-xl mb-4"
+  style={{ color: "var(--accent-teal)" }}>
+  SELECT YOUR ROLE
+</p>
 
           {/* Roles */}
           <div className="space-y-2 mb-6">

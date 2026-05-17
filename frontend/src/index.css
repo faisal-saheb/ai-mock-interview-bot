@@ -2,21 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
   --bg-primary: #1a1917;
   --bg-secondary: #211f1c;
   --bg-card: rgba(245, 240, 232, 0.04);
-  --accent-dijon: #C8A951;
+  --accent-dijon: #F5C518;
   --accent-olive: #6B7C4A;
   --accent-pistachio: #A8B87A;
+  --accent-teal: #7ECEC4;
   --accent-cider: #B5651D;
   --text-primary: #F0EDE8;
   --text-secondary: #9E9890;
   --border-ash: rgba(139, 134, 128, 0.2);
 }
 
+/* Body text stays clean Inter */
 * {
   font-family: 'Inter', sans-serif;
 }
@@ -26,8 +28,10 @@ body {
   color: var(--text-primary);
 }
 
-h1, h2 {
-  font-family: 'Playfair Display', serif;
+/* ALL headings get comic Bangers font */
+h1, h2, h3, .comic-text {
+  font-family: 'Bangers', cursive;
+  letter-spacing: 2px;
 }
 
 .card {
@@ -39,26 +43,30 @@ h1, h2 {
 .btn-primary {
   background: var(--accent-dijon);
   color: #1a1917;
-  font-weight: 600;
+  font-family: 'Bangers', cursive;
+  letter-spacing: 2px;
+  font-size: 1rem;
   transition: all 0.25s ease;
 }
 
 .btn-primary:hover {
-  background: #D4B86A;
+  background: #FFD54F;
   transform: translateY(-1px);
-  box-shadow: 0 8px 25px rgba(200, 169, 81, 0.25);
+  box-shadow: 0 8px 25px rgba(245, 197, 24, 0.3);
 }
 
 .btn-secondary {
   background: transparent;
   border: 1px solid var(--border-ash);
   color: var(--text-secondary);
+  font-family: 'Bangers', cursive;
+  letter-spacing: 2px;
   transition: all 0.25s ease;
 }
 
 .btn-secondary:hover {
-  border-color: var(--accent-dijon);
-  color: var(--accent-dijon);
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
 }
 
 .role-card {
@@ -69,17 +77,17 @@ h1, h2 {
 }
 
 .role-card:hover {
-  border-color: rgba(200, 169, 81, 0.4);
-  background: rgba(200, 169, 81, 0.05);
+  border-color: rgba(126, 206, 196, 0.5);
+  background: rgba(126, 206, 196, 0.05);
 }
 
 .role-card.selected {
   border-color: var(--accent-dijon);
-  background: rgba(200, 169, 81, 0.08);
+  background: rgba(245, 197, 24, 0.08);
 }
 
 .progress-bar {
-  background: linear-gradient(90deg, var(--accent-dijon), var(--accent-olive));
+  background: linear-gradient(90deg, var(--accent-teal), var(--accent-dijon));
   border-radius: 9999px;
   transition: width 0.6s ease;
 }
@@ -94,9 +102,22 @@ h1, h2 {
 
 .textarea-custom:focus {
   outline: none;
-  border-color: rgba(200, 169, 81, 0.5);
+  border-color: rgba(126, 206, 196, 0.5);
+}
+
+/* Speech bubble style for questions */
+.speech-bubble {
+  background: rgba(245, 240, 232, 0.06);
+  border: 1px solid rgba(126, 206, 196, 0.3);
+  border-left: 3px solid var(--accent-teal);
+  border-radius: 12px;
 }
 
 .score-high { color: #A8B87A; }
-.score-mid  { color: #B5651D; }
+.score-mid  { color: #F5C518; }
 .score-low  { color: #C0392B; }
+
+/* Teal glow for active elements */
+.teal-glow {
+  box-shadow: 0 0 20px rgba(126, 206, 196, 0.15);
+}

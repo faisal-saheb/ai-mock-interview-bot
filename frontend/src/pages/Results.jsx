@@ -34,10 +34,10 @@ function Results() {
       {/* Header */}
       <div className="text-center mb-10">
         <div className="text-5xl mb-4">{getOverallEmoji()}</div>
-        <h1 className="text-3xl font-bold mb-2"
-          style={{ color: "var(--text-primary)" }}>
-          Interview Complete
-        </h1>
+        <h1 className="comic-text text-4xl mb-2"
+  style={{ color: "var(--accent-dijon)" }}>
+  INTERVIEW COMPLETE!
+</h1>
         <div className="w-12 h-0.5 mx-auto mb-3"
           style={{ background: "var(--accent-dijon)" }} />
         <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -51,8 +51,8 @@ function Results() {
           style={{ color: "var(--text-secondary)" }}>
           Overall Score
         </p>
-        <p className="text-8xl font-bold mb-1"
-          style={{ color: "var(--accent-dijon)" }}>
+        <p className="comic-text text-8xl mb-1"
+  style={{ color: "var(--accent-dijon)" }}>
           {totalScore}
         </p>
         <p className="text-sm mb-6"
