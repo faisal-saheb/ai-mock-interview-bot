@@ -1,3 +1,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg-primary: #1a1917;
+  --bg-secondary: #211f1c;
+  --bg-card: rgba(245, 240, 232, 0.04);
+  --accent-dijon: #C8A951;
+  --accent-olive: #6B7C4A;
+  --accent-pistachio: #A8B87A;
+  --accent-cider: #B5651D;
+  --text-primary: #F0EDE8;
+  --text-secondary: #9E9890;
+  --border-ash: rgba(139, 134, 128, 0.2);
+}
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+h1, h2 {
+  font-family: 'Playfair Display', serif;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-ash);
+  backdrop-filter: blur(20px);
+}
+
+.btn-primary {
+  background: var(--accent-dijon);
+  color: #1a1917;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: #D4B86A;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(200, 169, 81, 0.25);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-ash);
+  color: var(--text-secondary);
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent-dijon);
+  color: var(--accent-dijon);
+}
+
+.role-card {
+  background: transparent;
+  border: 1px solid var(--border-ash);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.role-card:hover {
+  border-color: rgba(200, 169, 81, 0.4);
+  background: rgba(200, 169, 81, 0.05);
+}
+
+.role-card.selected {
+  border-color: var(--accent-dijon);
+  background: rgba(200, 169, 81, 0.08);
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--accent-dijon), var(--accent-olive));
+  border-radius: 9999px;
+  transition: width 0.6s ease;
+}
+
+.textarea-custom {
+  background: rgba(245, 240, 232, 0.03);
+  border: 1px solid var(--border-ash);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease;
+  resize: none;
+}
+
+.textarea-custom:focus {
+  outline: none;
+  border-color: rgba(200, 169, 81, 0.5);
+}
+
+.score-high { color: #A8B87A; }
+.score-mid  { color: #B5651D; }
+.score-low  { color: #C0392B; }
