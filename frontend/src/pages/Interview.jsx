@@ -13,17 +13,26 @@ function Interview() {
   const [loading, setLoading] = useState(true)
   const [evaluating, setEvaluating] = useState(false)
   const [results, setResults] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     loadQuestions()
   }, [])
 
-  const loadQuestions = async () => {
-    setLoading(true)
+const loadQuestions = async () => {
+  setLoading(true)
+  try {
     const qs = await getQuestions(role)
-    setQuestions(qs)
-    setLoading(false)
+    if (qs && qs.length > 0) {
+      setQuestions(qs)
+    } else {
+      setError("No questions loaded. Please go back and try again!")
+    }
+  } catch (error) {
+    setError(error.message)
   }
+  setLoading(false)
+}
 
   const handleNext = async () => {
     if (!answer.trim()) {
@@ -47,7 +56,26 @@ function Interview() {
       navigate("/results", { state: { results: newResults, role } })
     }
   }
-
+if (error) {
+  return (
+    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-4">
+      <div className="text-red-400 text-6xl mb-6">⚠️</div>
+      <p className="text-white text-xl font-semibold mb-4">{error}</p>
+      <button
+        onClick={() => { setError(null); loadQuestions() }}
+        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl"
+      >
+        🔄 Try Again
+      </button>
+      <button
+        onClick={() => navigate("/")}
+        className="mt-4 text-gray-400 hover:text-white"
+      >
+        ← Go Back Home
+      </button>
+    </div>
+  )
+}
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center">
